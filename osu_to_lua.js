@@ -124,7 +124,11 @@ module.export("osu_to_lua", function(osu_file_contents) {
 	append_to_output("rtv.TimingPoints = {")
 	for (var i = 0; i < beatmap.timingPoints.length; i++) {
 		var itr = beatmap.timingPoints[i];
-		append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
+		if (itr.velocity) {
+			append_to_output(format("\t[%d] = { Time = %d; Velocity = %d; };",i+1, itr.offset, itr.velocity))
+		} else {
+			append_to_output(format("\t[%d] = { Time = %d; BeatLength = %d; };",i+1, itr.offset, itr.beatLength))
+		}
 	}
 	append_to_output("};")
 	append_to_output("return rtv")
